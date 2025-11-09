@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createJobTracker, selectActiveJobs, selectCompletedJobs, selectFailedJobs, upsertJobFromApi } from '../../src/domain/jobs';
-import { GenerationJob } from '@/api/sora2/types';
+import { GenerationJob } from '../../src/api/sora2/types';
 
 const baseJob = (overrides: Partial<GenerationJob>): GenerationJob => ({
   id: 'job-1',

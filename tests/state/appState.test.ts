@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { GenerationJob, SoraModel } from '@/api/sora2/types';
+import { GenerationJob, SoraModel } from '../../src/api/sora2/types';
 import {
   addNotification,
   applyModelFilter,
