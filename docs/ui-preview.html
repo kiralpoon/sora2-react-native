@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sora2 React Native UI Preview</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f172a;
+      --card: rgba(15, 23, 42, 0.7);
+      --panel: rgba(15, 23, 42, 0.85);
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #1e293b, #020617);
+      color: var(--text);
+    }
+    .device {
+      width: 420px;
+      height: 860px;
+      padding: 24px 18px;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #0b1220, #1e293b);
+      box-shadow: 0 20px 80px rgba(2, 6, 23, 0.9), inset 0 0 0 2px rgba(148, 163, 184, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .device::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      width: 120px;
+      height: 6px;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      background: rgba(148, 163, 184, 0.2);
+    }
+    .screen {
+      height: 100%;
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.95));
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    header .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+    }
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .card {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.45);
+      border: 1px solid rgba(56, 189, 248, 0.08);
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .chips {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .prompt-panel {
+      padding: 18px;
+      border-radius: 20px;
+      background: var(--panel);
+      display: grid;
+      gap: 14px;
+    }
+    .prompt-panel label {
+      font-size: 13px;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .prompt-panel .textarea {
+      min-height: 120px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      padding: 14px;
+      line-height: 1.5;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .parameters {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .param {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(56, 189, 248, 0.12);
+    }
+    .param strong {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .param span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .cta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid rgba(56, 189, 248, 0.14);
+    }
+    .cta .summary {
+      display: grid;
+      gap: 6px;
+    }
+    .cta .summary span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .cta button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #38bdf8, #22d3ee);
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(34, 211, 238, 0.4);
+    }
+    footer {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer span.active {
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="device">
+    <div class="screen">
+      <header>
+        <div>
+          <h1>Sora Studio</h1>
+          <span style="color: var(--muted); font-size: 13px;">Watermark-free video generation</span>
+        </div>
+        <div class="avatar"></div>
+      </header>
+
+      <section>
+        <h2 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 12px;">Featured models</h2>
+        <div class="model-grid">
+          <div class="card">
+            <h2>VFX Motion</h2>
+            <p style="color: var(--muted); font-size: 12px; margin-top: 8px;">Dynamic aerial + particle simulations</p>
+            <div class="chips">
+              <span class="chip">4K</span>
+              <span class="chip">60s</span>
+              <span class="chip">Action</span>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Director Pro</h2>
+            <p style="color: var(--muted); font-size: 12px; margin-top: 8px;">Narrative shots with cinematic pacing</p>
+            <div class="chips">
+              <span class="chip">Cinematic</span>
+              <span class="chip">Story</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="prompt-panel">
+        <div>
+          <label for="prompt">Prompt</label>
+          <div class="textarea" id="prompt">
+            A sweeping dolly shot of a neon-lit city street after rain, reflective puddles, slow motion pedestrians, volumetric fog.
+          </div>
+        </div>
+        <div class="parameters">
+          <div class="param"><strong>Duration</strong><span>24s</span></div>
+          <div class="param"><strong>Aspect</strong><span>16:9</span></div>
+          <div class="param"><strong>Seed</strong><span>1024</span></div>
+        </div>
+      </section>
+
+      <div class="cta">
+        <div class="summary">
+          <span>Model: Director Pro • Guidance: 12 • Motion: Cinematic</span>
+          <span>Est. time: 01m 40s · Tokens: 12.4k</span>
+        </div>
+        <button>Generate</button>
+      </div>
+
+      <footer>
+        <span class="active">Create</span>
+        <span>History</span>
+        <span>Notifications</span>
+        <span>Settings</span>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
