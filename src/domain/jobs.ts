@@ -33,7 +33,15 @@ export function upsertJobFromApi(state: JobTrackerState, job: GenerationJob): Jo
 
 export function markJobEvent(state: JobTrackerState, jobId: string, event: JobTimelineEvent): JobTrackerState {
   const nextJobs = state.jobs.map((job) =>
-    job.id === jobId ? { ...job, events: [...job.events, event], status: event.status, updatedAt: event.timestamp } : job
+    job.id === jobId
+      ? {
+          ...job,
+          events: [...job.events, event],
+          status: event.status,
+          updatedAt: event.timestamp,
+          progress: event.progress ?? job.progress,
+        }
+      : job
   );
   return { jobs: nextJobs.sort(descendingByCreatedAt) };
 }
