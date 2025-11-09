@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "jsx": "react",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "typeRoots": ["./types"]
+  },
+  "include": ["App.tsx", "src/**/*", "tests/**/*", "types/**/*"],
+  "exclude": ["dist", "node_modules"]
+}
