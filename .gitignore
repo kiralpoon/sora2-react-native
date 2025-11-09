@@ -1,5 +1,9 @@
-node_modules
-.astro/
+node_modules/
+.expo/
+.expo-shared/
 dist/
-screenshots/
-test-results/
+coverage/
+*.log
+.DS_Store
+*.tgz
+.env*

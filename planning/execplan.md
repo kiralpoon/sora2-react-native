@@ -20,12 +20,12 @@ Keep this section current after every meaningful milestone, PR merge, or blocked
 | Feature Stream | Status | Last Update (UTC) | Owner | Latest Notes |
 | --- | --- | --- | --- | --- |
 | ExecPlan foundation | ✅ Done | 2025-11-09 12:40 | gpt-5-codex | Drafted initial ExecPlan outlining scope, local testing workflow, and live-tracking expectations. |
-| Expo scaffolding & architecture | ⬜️ Todo | — | Unassigned | Pending project initialization with navigation, state management, theming, linting. |
-| API client & secure auth | ⬜️ Todo | — | Unassigned | Awaiting scaffolding handoff; needs error normalization and cancellation support. |
-| Model discovery & prompt builder | ⬜️ Todo | — | Unassigned | Requires UI build-out plus template persistence and validation copy. |
-| Submission, history, result viewer | ⬜️ Todo | — | Unassigned | To cover review flow, status polling, caching, and sharing surface. |
-| Notifications, logging, settings | ⬜️ Todo | — | Unassigned | Includes push registration strategy and analytics toggle wiring. |
-| Testing, QA, deployment docs | ⬜️ Todo | — | Unassigned | Needs automated test coverage, manual checklist, screenshots, release notes. |
+| Expo scaffolding & architecture | 🟡 In-Progress | 2025-11-09 14:55 | gpt-5-codex | Rebuilding Expo scaffold with modular domain layer; UI wiring outstanding. |
+| API client & secure auth | 🟡 In-Progress | 2025-11-09 14:55 | gpt-5-codex | Replaced client with typed fetch wrapper; secure storage wiring pending. |
+| Model discovery & prompt builder | 🔲 Todo | 2025-11-09 14:55 | gpt-5-codex | Domain filtering rebuilt; screen integration still required. |
+| Submission, history, result viewer | 🔲 Todo | 2025-11-09 14:55 | gpt-5-codex | Job tracker domain restored; navigation + media playback outstanding. |
+| Notifications, logging, settings | 🔲 Todo | 2025-11-09 14:55 | gpt-5-codex | Notification + settings domain rebuilt; UI plumbing pending. |
+| Testing, QA, deployment docs | 🟡 In-Progress | 2025-11-09 14:55 | gpt-5-codex | Replaced README and domain-focused tests; Expo integration tests outstanding. |
 
 ### Live Feature Progress Checklist
 
@@ -36,14 +36,14 @@ Keep this section current after every meaningful milestone, PR merge, or blocked
 - [ ] **Expo scaffolding & architecture**
   - [ ] Initialize Expo TypeScript project with navigation and UI toolkit.
   - [ ] Configure linting, formatting, and commit hooks.
-  - [ ] Establish folder structure and environment variable handling.
+  - [x] Establish folder structure and environment variable handling.
 - [ ] **API client & secure auth**
-  - [ ] Implement Sora2 API wrapper with typed requests/responses.
+  - [x] Implement Sora2 API wrapper with typed requests/responses.
   - [ ] Wire secure key storage and injection into requests.
   - [ ] Build polling/cancellation utilities and error normalization.
 - [ ] **Model discovery & prompt builder**
   - [ ] Ship model catalog UI with filters, search, and favorites.
-  - [ ] Implement prompt builder with validation and template persistence.
+  - [x] Implement prompt builder with validation and template persistence.
   - [ ] Provide guidance content and negative/storyboard sections.
 - [ ] **Submission, history, result viewer**
   - [ ] Create submission review flow with progress indicators.
@@ -55,7 +55,7 @@ Keep this section current after every meaningful milestone, PR merge, or blocked
   - [ ] Implement settings UI for theme, localization, analytics toggle.
 - [ ] **Testing, QA, deployment docs**
   - [ ] Configure automated tests (Jest, RTL) and coverage for critical flows.
-  - [ ] Draft manual QA checklist and local testing instructions.
+  - [x] Draft manual QA checklist and local testing instructions.
   - [ ] Prepare deployment documentation, screenshots, release notes.
 
 **Live Update Protocol:**
