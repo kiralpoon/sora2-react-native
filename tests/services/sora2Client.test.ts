@@ -49,7 +49,7 @@ test('listModels performs authenticated fetch using the video beta header', asyn
   assert.equal(models[0].id, 'sora-1.1');
   assert.equal(models[0].name, 'Sora 1.1');
   assert.equal(models[0].maxDurationSeconds, 60);
-  assert.equal(calls[0].url, 'https://example.com/models?type=video');
+  assert.equal(calls[0].url, 'https://example.com/v1/models?type=video');
   assert.equal(calls[0].method, 'GET');
   assert.equal(calls[0].headers?.Authorization, 'Bearer key-123');
   assert.equal(calls[0].headers?.['OpenAI-Beta'], 'video-generation=2024-12-17');
@@ -108,7 +108,7 @@ test('submitGeneration posts payload in the Sora format and normalizes the respo
 
   const job = await client.submitGeneration(request);
 
-  assert.equal(receivedUrl, 'https://example.com/videos');
+  assert.equal(receivedUrl, 'https://example.com/v1/videos');
   assert.equal(receivedBody?.model, 'demo');
   assert.equal(receivedBody?.prompt, 'Test prompt');
   assert.equal(receivedBody?.negative_prompt, 'No text');

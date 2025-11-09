@@ -43,6 +43,24 @@ export interface Sora2ClientOptions {
   fetchImpl?: FetchImpl;
   betaHeader?: string;
   modelPath?: string;
+  videosPath?: string;
+}
+
+const ABSOLUTE_URL_REGEX = /^https?:/i;
+const DEFAULT_BASE_URL = 'https://api.openai.com';
+const DEFAULT_MODEL_PATH = '/v1/models?type=video';
+const DEFAULT_VIDEOS_PATH = '/v1/videos';
+
+function normalizeEndpointPath(path: string, fallback: string): string {
+  const target = typeof path === 'string' ? path.trim() : '';
+  if (!target) {
+    return fallback;
+  }
+  if (ABSOLUTE_URL_REGEX.test(target)) {
+    return target.replace(/\/$/, '');
+  }
+  const withLeadingSlash = target.startsWith('/') ? target : `/${target}`;
+  return withLeadingSlash.replace(/\/$/, '');
 }
 
 export class Sora2Client {
@@ -50,16 +68,18 @@ export class Sora2Client {
   private readonly fetchImpl: FetchImpl;
   private readonly betaHeader: string;
   private readonly modelPath: string;
+  private readonly videosPath: string;
 
   constructor(private readonly apiKey: string, options: Sora2ClientOptions = {}) {
     if (!apiKey) {
       throw new Error('Sora2Client requires a non-empty API key.');
     }
 
-    this.baseUrl = options.baseUrl ?? 'https://api.openai.com/v1';
+    this.baseUrl = options.baseUrl ?? DEFAULT_BASE_URL;
     this.fetchImpl = options.fetchImpl ?? (globalThis.fetch as unknown as FetchImpl);
     this.betaHeader = options.betaHeader ?? 'video-generation=2024-12-17';
-    this.modelPath = options.modelPath ?? '/models?type=video';
+    this.modelPath = normalizeEndpointPath(options.modelPath ?? DEFAULT_MODEL_PATH, DEFAULT_MODEL_PATH);
+    this.videosPath = normalizeEndpointPath(options.videosPath ?? DEFAULT_VIDEOS_PATH, DEFAULT_VIDEOS_PATH);
 
     if (!this.fetchImpl) {
       throw new Error('No fetch implementation available. Provide one via options.fetchImpl.');
@@ -76,7 +96,7 @@ export class Sora2Client {
 
   async submitGeneration(request: GenerationRequest): Promise<GenerationJob> {
     const payload = buildGenerationPayload(request);
-    const response = await this.request<SoraGenerationApiJob>('/videos', {
+    const response = await this.request<SoraGenerationApiJob>(this.videosPath, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
@@ -87,7 +107,7 @@ export class Sora2Client {
     if (!jobId) {
       throw new Error('jobId is required.');
     }
-    const response = await this.request<SoraGenerationApiJob>(`/videos/${jobId}`, { method: 'GET' });
+    const response = await this.request<SoraGenerationApiJob>(`${this.videosPath}/${jobId}`, { method: 'GET' });
     return normalizeGenerationJob(response);
   }
 
@@ -95,7 +115,7 @@ export class Sora2Client {
     if (!jobId) {
       throw new Error('jobId is required.');
     }
-    const response = await this.request<SoraGenerationApiJob>(`/videos/${jobId}/cancel`, { method: 'POST' });
+    const response = await this.request<SoraGenerationApiJob>(`${this.videosPath}/${jobId}/cancel`, { method: 'POST' });
     return normalizeGenerationJob(response);
   }
 
@@ -108,7 +128,9 @@ export class Sora2Client {
       search.set('page_size', String(params.pageSize));
     }
     const query = search.toString();
-    const response = await this.request<SoraGenerationApiListResponse>(`/videos${query ? `?${query}` : ''}`, {
+    const response = await this.request<SoraGenerationApiListResponse>(`${this.videosPath}${
+      query ? `?${query}` : ''
+    }`, {
       method: 'GET',
     });
     return {
@@ -119,7 +141,7 @@ export class Sora2Client {
 
   private async request<T>(pathOrUrl: string, init: RequestOptions): Promise<T> {
     const headers = normalizeHeaders(init.headers);
-    const isAbsolute = /^https?:/i.test(pathOrUrl);
+    const isAbsolute = ABSOLUTE_URL_REGEX.test(pathOrUrl);
     const url = isAbsolute ? pathOrUrl : `${this.baseUrl}${pathOrUrl}`;
     const response = await this.fetchImpl(url, {
       ...init,
